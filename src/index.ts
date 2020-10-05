@@ -1,1 +1,5 @@
-export const Greeter = (name: string) => `Hello ${name}`;
+import ISettings from './types/ISettings'
+
+let _settings: ISettings = {
+  cookie: undefined,
+}
