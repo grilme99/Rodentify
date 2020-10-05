@@ -17,18 +17,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/caki0915/my-awesome-greeter.git"
+    "url": "git+https://github.com/grilme99/Rodentify.git"
   },
   "keywords": [
-    "Hello",
-    "Greeter"
+    "roblox",
+    "server",
+    "authentication",
+    "typescript",
+    "rocheck",
+    "validation",
+    "api"
   ],
-  "author": "C-J",
-  "license": "ISC",
+  "author": "Brooke Rhodes",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/caki0915/my-awesome-greeter/issues"
+    "url": "https://github.com/grilme99/Rodentify/issues"
   },
-  "homepage": "https://github.com/caki0915/my-awesome-greeter#readme",
+  "homepage": "https://github.com/grilme99/Rodentify#readme",
   "devDependencies": {
     "@types/jest": "^22.2.3",
     "codecov": "^3.8.0",
