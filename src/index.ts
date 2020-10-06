@@ -30,6 +30,6 @@ export const GetCookie = () => _settings.cookie
  * ```
  */
 export const GetServerInfo = async (placeId: number | string, jobId: string) => {
-  if (_settings.cookie) throw new Error('No cookie has been set')
-  return InternalGetServerInfo(placeId, jobId, _settings.cookie!)
+  if (!_settings.cookie) throw new Error('No cookie has been set')
+  return InternalGetServerInfo(placeId, jobId, _settings.cookie)
 }

@@ -15,6 +15,10 @@ const InternalGetServerData = async (
   jobId: string,
   cookie: string
 ): Promise<[string, string]> => {
+  if (!placeId) throw new Error('Expected a placeId')
+  if (!jobId) throw new Error('Expected a jobId')
+  if (!cookie) throw new Error('Expected a cookie')
+
   const initialRequest = await phin<IAssetGameResponse>({
     url: `https://assetgame.roblox.com/Game/PlaceLauncher.ashx?request=RequestGameJob&placeId=${placeId}&gameId=${jobId}`,
     headers: {
@@ -27,14 +31,14 @@ const InternalGetServerData = async (
     parse: 'json'
   })
 
-  if (initialRequest.statusCode !== 200 && initialRequest.body) {
+  if (initialRequest.statusCode === 200 && initialRequest.body) {
     const joinScriptUrl = initialRequest.body.joinScriptUrl
     if (!joinScriptUrl) throw 'No joinScriptUrl'
 
     const gameDataResponse = await phin(joinScriptUrl)
     const gameData = JSON.parse(gameDataResponse.body.toString().replace(/--.*\r\n/, ''))
 
-    return [gameData.MachineAddress, gameData.serverPort]
+    return [gameData.MachineAddress, gameData.ServerPort]
   } else {
     throw new Error('Initial request failed')
   }
