@@ -36,6 +36,11 @@ export const GetServerInfo = async (placeId: number | string, jobId: string) => 
 }
 
 /**
+ * **Warning:** *This method is slow and is suspectable to hitting rate
+ * limits because it has to loop through the server list until it finds
+ * the job ID. You should only use this as a fallback for the
+ * `IsServerAlive` method.*
+ *
  * Returns server list data for a specific job ID or *undefined* if the
  * server is no longer running.
  *
