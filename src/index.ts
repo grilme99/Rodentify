@@ -1,9 +1,10 @@
+import InternalCheckJobId from './checkJobId'
 import InternalGetServerInfo from './getServerInfo'
 
 import ISettings from './types/ISettings'
 
 let _settings: ISettings = {
-  cookie: undefined
+	cookie: undefined
 }
 
 /**
@@ -30,6 +31,21 @@ export const GetCookie = () => _settings.cookie
  * ```
  */
 export const GetServerInfo = async (placeId: number | string, jobId: string) => {
-  if (!_settings.cookie) throw new Error('No cookie has been set')
-  return InternalGetServerInfo(placeId, jobId, _settings.cookie)
+	if (!_settings.cookie) throw new Error('No cookie has been set')
+	return InternalGetServerInfo(placeId, jobId, _settings.cookie)
 }
+
+/**
+ * Returns server list data for a specific job ID or *undefined* if the
+ * server is no longer running.
+ *
+ * This **shouldn't** be used for authentication and should instead be used
+ * when you have already authenticated a server and need to make sure that
+ * is is still running (for example, in later requests to your API).
+ *
+ * ```typescript
+ * const serverData = await CheckJobId(123456789, '4136c54c-07e6-11eb-adc1-0242ac120002')
+ * if (!serverData) return res.sendStatus(401)
+ * ```
+ */
+export const CheckJobId = async (placeID: number | string, jobId: string) => InternalCheckJobId(placeID, jobId)
