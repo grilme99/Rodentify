@@ -1,7 +1,9 @@
 import InternalCheckJobId from './checkJobId'
 import InternalGetServerInfo from './getServerInfo'
 
-import ISettings from './types/ISettings'
+interface ISettings {
+	cookie?: string
+}
 
 let _settings: ISettings = {
 	cookie: undefined
