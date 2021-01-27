@@ -1,6 +1,6 @@
 {
 	"name": "rodentify",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A package for authenticating Roblox game servers.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
