@@ -10,7 +10,7 @@ It is important to note that Rodentify does **not** make any account join the ga
 ## Limitations
 This package comes with some key limitations that you should remain aware of when working with it. Due to the way that this package works, any server that you want to run Rodentify against must meet the following conditions:
 - The game must be 100% public.
-  - This means that it cannot be paid access and/or group/friends only.
+  - This means that it cannot be paid access, a VIP server, or group/friends only.
 - The server cannot be full.
 
 Because Rodentify works by initializing a join request with the server, that server must actually be joinable by an average account. You can get around the first limitation by giving whatever bot account you may be using permission to join the game. However, this may not work for all circumstances.
