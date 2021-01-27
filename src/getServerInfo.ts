@@ -1,17 +1,11 @@
 import phin from 'phin'
+import { IJoinTicket } from './types/JoinTicketTypes'
 
 interface IAssetGameResponse {
 	joinScriptUrl: string
 }
 
-/**
- * Returns the IP and Port of a Roblox game server
- */
-const InternalGetServerData = async (
-	placeId: number | string,
-	jobId: string,
-	cookie: string
-): Promise<[string, string]> => {
+export async function _GetJoinTicket(placeId: number | string, jobId: string, cookie: string) {
 	if (!placeId) throw new Error('Expected a placeId')
 	if (!jobId) throw new Error('Expected a jobId')
 	if (!cookie) throw new Error('Expected a cookie')
@@ -31,14 +25,21 @@ const InternalGetServerData = async (
 	if (initialRequest.statusCode === 200 && initialRequest.body) {
 		const joinScriptUrl = initialRequest.body.joinScriptUrl
 		if (!joinScriptUrl) throw 'No joinScriptUrl'
-
-		const gameDataResponse = await phin(joinScriptUrl)
-		const gameData = JSON.parse(gameDataResponse.body.toString().replace(/--.*\r\n/, ''))
-
-		return [gameData.MachineAddress, gameData.ServerPort]
+		return joinScriptUrl
 	} else {
 		throw new Error('Initial request failed')
 	}
 }
 
-export = InternalGetServerData
+export async function _GetServerData(placeId: number | string, jobId: string, cookie: string) {
+	if (!placeId) throw new Error('Expected a placeId')
+	if (!jobId) throw new Error('Expected a jobId')
+	if (!cookie) throw new Error('Expected a cookie')
+
+	const joinScriptUrl = await _GetJoinTicket(placeId, jobId, cookie)
+
+	const gameDataResponse = await phin(joinScriptUrl)
+	const gameData: IJoinTicket = JSON.parse(gameDataResponse.body.toString().replace(/--.*\r\n/, ''))
+
+	return gameData
+}
