@@ -1,4 +1,4 @@
-import { _GetJoinTicket, _GetServerData } from './GetServerInfo'
+import { _GetJoinTicket, _GetServerData } from './getServerInfo'
 
 interface ISettings {
 	cookie?: string
