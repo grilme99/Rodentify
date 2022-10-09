@@ -26,8 +26,6 @@ export async function _GetJoinTicket(placeId: number | string, jobId: string, co
 
 	if (initialRequest.statusCode === 200 && initialRequest.body) {
 		const body = initialRequest.body
-		console.log(body)
-
 		if (!body.jobId || !body.joinScript) throw 'No joinScript or jobId'
 		
 		return body.joinScript
