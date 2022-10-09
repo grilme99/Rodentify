@@ -11,21 +11,28 @@ export async function _GetJoinTicket(placeId: number | string, jobId: string, co
 	if (!cookie) throw new Error('Expected a cookie')
 
 	const initialRequest = await phin<IAssetGameResponse>({
-		url: `https://assetgame.roblox.com/Game/PlaceLauncher.ashx?request=RequestGameJob&placeId=${placeId}&gameId=${jobId}`,
+		url: "https://gamejoin.roblox.com/v1/join-game-instance",
+		method: "post",
 		headers: {
-			'User-Agent':
-				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+			'User-Agent': 'Roblox',
 			Referer: `https://www.roblox.com/games/${placeId}/`,
 			Origin: 'https://www.roblox.com',
 			Cookie: `.ROBLOSECURITY=${cookie}; path=/; domain=.roblox.com;`
+		},
+		data: {
+			placeId: placeId,
+			isTeleport: false,
+			gameId: jobId,
+			gameJoinAttemptId: jobId
 		},
 		parse: 'json'
 	})
 
 	if (initialRequest.statusCode === 200 && initialRequest.body) {
-		const joinScriptUrl = initialRequest.body.joinScriptUrl
-		if (!joinScriptUrl) throw 'No joinScriptUrl'
-		return joinScriptUrl
+		const body = initialRequest.body
+		if (!body.jobId || !body.joinScript) throw 'No joinScript or jobId'
+		
+		return body.joinScript
 	} else {
 		throw new Error('Initial request failed')
 	}
@@ -36,10 +43,6 @@ export async function _GetServerData(placeId: number | string, jobId: string, co
 	if (!jobId) throw new Error('Expected a jobId')
 	if (!cookie) throw new Error('Expected a cookie')
 
-	const joinScriptUrl = await _GetJoinTicket(placeId, jobId, cookie)
-
-	const gameDataResponse = await phin(joinScriptUrl)
-	const gameData: IJoinTicket = JSON.parse(gameDataResponse.body.toString().replace(/--.*\r\n/, ''))
-
+	const gameData: IJoinTicket = await _GetJoinTicket(placeId, jobId, cookie)
 	return gameData
 }
